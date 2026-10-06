@@ -12,7 +12,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
-    "e2e:prod": "E2E_TARGET=preview playwright test"
+    "e2e:prod": "E2E_TARGET=preview playwright test",
+    "build:site": "pnpm build && pnpm --filter @mission-readiness/ui build-storybook && rm -rf apps/web/dist/storybook && cp -R packages/ui/storybook-static apps/web/dist/storybook"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",

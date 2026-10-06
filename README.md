@@ -16,6 +16,7 @@ pnpm dev          # http://localhost:5173
 | Command                             | What it does                                                                        |
 | ----------------------------------- | ----------------------------------------------------------------------------------- |
 | `pnpm build`                        | Type-check and production build                                                     |
+| `pnpm build:site`                   | The app plus Storybook at `/storybook`, ready to host                               |
 | `pnpm test`                         | Unit and component tests (Vitest, Testing Library, axe)                             |
 | `pnpm e2e`                          | Browser tests (Playwright, axe). First run: `pnpm exec playwright install chromium` |
 | `pnpm e2e:prod`                     | The same browser tests against the production build                                 |
