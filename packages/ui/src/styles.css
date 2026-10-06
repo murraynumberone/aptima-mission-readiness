@@ -1,0 +1,216 @@
+@import "@mission-readiness/tokens/tokens.css";
+@source ".";
+
+/* Type scale for a high-stress screen: nothing below 13px except short caps labels. */
+@theme {
+  --text-xs: 0.8125rem; /* 13px: secondary text, data */
+  --text-xs--line-height: 1.4;
+  --text-sm: 0.9375rem; /* 15px: body */
+  --text-sm--line-height: 1.5;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-line: var(--line);
+  --color-fill-subtle: var(--fill-subtle);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-focus-ring: var(--focus-ring);
+  --color-status-nominal: var(--status-nominal);
+  --color-status-attention: var(--status-attention);
+  --color-status-critical: var(--status-critical);
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-data);
+}
+
+@layer base {
+  /* No double-tap-to-zoom delay on controls; no flash of the browser's own tap highlight. */
+  button,
+  a,
+  input,
+  label,
+  summary,
+  textarea {
+    touch-action: manipulation;
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    background: var(--bg);
+    color: var(--surface-foreground);
+    font-family: var(--font-body);
+    font-size: 0.9375rem; /* 15px, in rem so browser text size still scales it */
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 600;
+    text-wrap: balance;
+  }
+  /* Don't leave a single word (or unit) alone on the last line of a paragraph. */
+  p,
+  dd,
+  li {
+    text-wrap: pretty;
+  }
+}
+
+/* Building blocks shared by every app. */
+@layer components {
+  /* Short caps label. Caps come from CSS, so screen readers read normal words. */
+  .label {
+    @apply font-mono text-[0.75rem] tracking-wider text-muted-foreground uppercase;
+  }
+  .btn {
+    @apply inline-flex min-h-8 items-center justify-center gap-1.5 rounded-(--radius) border border-line bg-surface px-3 font-mono text-xs font-medium whitespace-nowrap hover:bg-bg disabled:cursor-not-allowed disabled:text-muted-foreground;
+  }
+  /* A direction icon leans a couple of pixels the way it points when its button is hovered, focused or pressed.
+     Transform only: it never changes layout. */
+  .nudge-l,
+  .nudge-r {
+    transition: transform 120ms ease-out;
+  }
+  .btn:is(:hover, :focus-visible, :active) .nudge-r {
+    transform: translateX(2px);
+  }
+  .btn:is(:hover, :focus-visible, :active) .nudge-l {
+    transform: translateX(-2px);
+  }
+
+  /* Pressed: a small physical response, more prominent than hover. */
+  .btn:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+  .btn-primary {
+    @apply border-surface-foreground bg-surface-foreground text-surface hover:bg-surface-foreground;
+  }
+  /* Hover is an inner ring, not a dimmed fill: fading the fill dropped Night's text below 4.5:1. */
+  .btn-primary:hover {
+    box-shadow: inset 0 0 0 2px var(--surface);
+  }
+  .panel {
+    @apply rounded-(--radius) border border-line bg-surface;
+  }
+  /* An inverse band (the app bar). It remaps the semantic tokens for everything inside it, so ordinary
+     components such as .btn and the theme control restyle themselves with no variants of their own. */
+  .bar {
+    --surface: var(--bar-bg);
+    --surface-foreground: var(--bar-foreground);
+    --muted-foreground: var(--bar-muted);
+    --line: var(--bar-line);
+    --fill-subtle: var(--bar-fill);
+    --focus-ring: var(--bar-focus-ring);
+    background: var(--bar-bg);
+    color: var(--bar-foreground);
+  }
+  .field {
+    @apply w-full rounded-(--radius) border border-line bg-surface px-3 py-2 text-sm placeholder:text-muted-foreground aria-[invalid=true]:border-surface-foreground;
+  }
+}
+
+/* Motion. Each of these is switched off for people who ask for reduced motion; see the media query below. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes draw {
+  from {
+    clip-path: inset(-4px 100% -4px -4px);
+  }
+  to {
+    clip-path: inset(-4px -4px -4px -4px);
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.7);
+  }
+}
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+@layer components {
+  /* One-time entrance: rows fade up in sequence (set --i on each row). */
+  .reveal {
+    animation: reveal 320ms ease-out both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+  /* A chart line drawing left to right. */
+  .draw-in {
+    animation: draw 900ms ease-out 150ms both;
+  }
+  /* A terminal-style cursor, one blink a second. Stopped by script after a few seconds or on interaction. */
+  .blink {
+    animation: blink 1s steps(1, end) infinite;
+  }
+  /* An active alert: slow, one pulse every 2.4 seconds, far under the 3-flashes-a-second limit (WCAG 2.3.1).
+     Two pulses then still, so it never runs past 5 seconds with no way to stop it (WCAG 2.2.2). */
+  .pulse-slow {
+    animation: pulse 2.4s ease-in-out 2;
+  }
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background: var(--fill-subtle);
+    border-radius: var(--radius);
+  }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, var(--line), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 1.6s linear infinite;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nudge-l,
+  .nudge-r {
+    transition: none;
+  }
+  .btn:is(:hover, :focus-visible, :active) :is(.nudge-l, .nudge-r) {
+    transform: none;
+  }
+  .reveal,
+  .draw-in,
+  .blink,
+  .pulse-slow,
+  .skeleton::after {
+    animation: none !important;
+  }
+}
+
+/* Designed focus: one ring, themed, visible on every surface in every theme. */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
