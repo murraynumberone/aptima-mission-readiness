@@ -1,0 +1,64 @@
+@import "tailwindcss";
+@import "@mission-readiness/ui/styles.css";
+
+@layer components {
+  /* The notes sheet: sticks to the bottom of the window. It sits last in the page, so at the very end it is simply
+     part of the page and covers nothing. */
+  .notes-sheet {
+    position: sticky;
+    bottom: 0;
+    z-index: 30;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-bottom: 0;
+    border-radius: var(--radius) var(--radius) 0 0;
+    box-shadow: 0 -6px 16px rgb(0 0 0 / 0.14);
+  }
+  /* A short window, or heavy zoom, would let a floating sheet take over the screen: let it sit in the page instead. */
+  @media (max-height: 520px) {
+    .notes-sheet {
+      position: static;
+      box-shadow: none;
+      border-bottom: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+  }
+  /* The notes panel slides open and shut. Base UI sets --collapsible-panel-height and marks the start and end states. */
+  .notes-panel {
+    height: var(--collapsible-panel-height);
+    overflow: hidden;
+    transition: height 180ms ease-out;
+  }
+  .notes-panel[data-starting-style],
+  .notes-panel[data-ending-style] {
+    height: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .notes-panel {
+    transition: none;
+  }
+}
+
+/* Theme switch: cross-fade colors only, so layout never moves. Removed by JS after the fade. */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color 250ms ease,
+    color 250ms ease,
+    border-color 250ms ease,
+    outline-color 250ms ease !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transition,
+  html.theme-transition * {
+    transition: none !important;
+  }
+}
+
+/* Night brightness: a deliberate user dimming, with a floor set in the control. */
+html[data-theme="night"] body {
+  filter: brightness(var(--night-dim, 1));
+}
