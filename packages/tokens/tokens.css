@@ -1,0 +1,85 @@
+/* Typography is shared by every theme. Font files are loaded by each app. */
+:root {
+  --font-body:
+    "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif;
+  --radius: 3px; /* a slight softening on panels, buttons and fields; 0 gives the strict terminal look */
+  --font-data:
+    "Atkinson Hyperlegible Mono Variable", "Atkinson Hyperlegible Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+/* Day is the default. Switch themes with <html data-theme="day|ops|night">.
+   Plain CSS variables so any framework can consume them. */
+
+:root,
+[data-theme="day"] {
+  color-scheme: light; /* native scrollbars and form controls match the theme */
+  --bg: #f5f5f5;
+  --surface: #ffffff;
+  --surface-foreground: #141417;
+  --muted-foreground: #5c5c5c;
+  --line: #d4d4d4;
+  --fill-subtle: #ebebeb;
+  --accent: #f05e2b; /* large text, icons, borders only */
+  --accent-text: #c2410c; /* small text */
+  --focus-ring: #0246bf;
+  --status-nominal: #0246bf;
+  --status-attention: #8f4a00;
+  --status-critical: #b3261e;
+  /* App bar: always a dark band, so the reversed logo and light text read in every theme. */
+  --bar-bg: #141417;
+  --bar-foreground: #f5f5f5;
+  --bar-muted: #b4bac4;
+  --bar-line: #3a4350;
+  --bar-fill: #2b3544;
+  --bar-focus-ring: #d9e8ff;
+  --logo-mark: #f05e2b;
+  --logo-word: #ffffff;
+}
+
+[data-theme="ops"] {
+  color-scheme: dark;
+  --bg: #141417;
+  --surface: #212934;
+  --surface-foreground: #f5f5f5;
+  --muted-foreground: #b4bac4;
+  --line: #3a4350;
+  --fill-subtle: #2b3544;
+  --accent: #f05e2b;
+  --accent-text: #f4693a;
+  --focus-ring: #d9e8ff;
+  --status-nominal: #d9e8ff;
+  --status-attention: #fa8a08;
+  --status-critical: #ff7a45;
+  --bar-bg: #141417;
+  --bar-foreground: #f5f5f5;
+  --bar-muted: #b4bac4;
+  --bar-line: #3a4350;
+  --bar-fill: #2b3544;
+  --bar-focus-ring: #d9e8ff;
+  --logo-mark: #f05e2b;
+  --logo-word: #ffffff;
+}
+
+[data-theme="night"] {
+  color-scheme: dark;
+  --bg: #000000;
+  --surface: #0d0000;
+  --surface-foreground: #ff2d1f;
+  --muted-foreground: #e22a1d; /* dimmest red that passes 4.5:1 for small text */
+  --line: #3d0d0a; /* decorative only */
+  --fill-subtle: #2a0805;
+  --accent: #ff2d1f;
+  --accent-text: #ff2d1f;
+  --focus-ring: #ff2d1f;
+  --status-nominal: #b3201a;
+  --status-attention: #ff2d1f;
+  --status-critical: #ff6a5e;
+  --bar-bg: #000000;
+  --bar-foreground: #ff2d1f;
+  --bar-muted: #e22a1d;
+  --bar-line: #3d0d0a;
+  --bar-fill: #2a0805;
+  --bar-focus-ring: #ff2d1f;
+  --logo-mark: #ff2d1f; /* the logo is tinted to the Night palette */
+  --logo-word: #e22a1d;
+}
