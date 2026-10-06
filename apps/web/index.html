@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#141417" />
+    <meta
+      name="description"
+      content="A concept dashboard for reviewing a team training exercise. Not affiliated with Aptima, Inc. All data is fictional."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23141417'/%3E%3Cpath d='M16 6l10 10-10 10L6 16z' fill='%23f05e2b'/%3E%3C/svg%3E"
+    />
+    <title>Mission Readiness</title>
+    <!-- Linked here, not imported from the script, so the styles load alongside it: the loading placeholder below is
+         styled before any script runs. (Vite processes this file and hashes it in production.) -->
+    <link rel="stylesheet" href="/src/styles/index.css" />
+    <script>
+      // Sets the theme before the first frame is painted, so nobody sees a flash of the wrong theme.
+      // That matters most for Night, where a light frame is the thing the theme exists to avoid.
+      // This mirrors resolveTheme() in src/lib/theme.ts; e2e/theme.spec.ts checks the two agree.
+      (function () {
+        var choice = "system",
+          dim = 100;
+        try {
+          var saved = localStorage.getItem("mr-theme");
+          if (saved === "day" || saved === "ops" || saved === "night") choice = saved;
+          var n = Number(localStorage.getItem("mr-night-dim"));
+          if (n > 0) dim = Math.min(100, Math.max(40, Math.round(n)));
+        } catch (e) {}
+        var dark = false;
+        try {
+          dark = matchMedia("(prefers-color-scheme: dark)").matches;
+        } catch (e) {}
+        var root = document.documentElement;
+        root.dataset.theme = choice === "system" ? (dark ? "ops" : "day") : choice;
+        root.style.setProperty("--night-dim", String(dim / 100));
+        // The browser's own chrome (address bar on phones) takes the app bar's color. Same source as the app: the token.
+        var meta = document.querySelector('meta[name="theme-color"]');
+        var bar = getComputedStyle(root).getPropertyValue("--bar-bg").trim();
+        if (meta && bar) meta.setAttribute("content", bar);
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- Shown until the run has loaded, shaped like the real page so nothing jumps when it arrives. It sits beside the
+         React root, not inside it, so React cannot clear it early; RunLoader removes it when the app appears. -->
+    <div id="app-shell">
+      <div data-testid="app-shell-skeleton">
+        <!-- Hidden with inline style, not a class, so the words never show even if the stylesheet is slow. -->
+        <p
+          role="status"
+          style="
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+          "
+        >
+          Loading Mission Readiness…
+        </p>
+        <div aria-hidden="true">
+          <div class="bar border-b border-line">
+            <div class="mx-auto flex h-[3.4rem] max-w-352 items-center gap-3 px-4">
+              <div class="skeleton h-6 w-28"></div>
+              <div class="skeleton ml-auto h-8 w-60"></div>
+              <div class="skeleton h-8 w-24"></div>
+            </div>
+          </div>
+          <div class="mx-auto max-w-352 px-4 pt-4 pb-4">
+            <div class="skeleton h-6 w-44"></div>
+            <div class="skeleton mt-3 h-4 w-3/5 max-w-xl"></div>
+            <div class="mt-4 flex flex-wrap gap-1.5 border-t border-line pt-4">
+              <div class="skeleton h-8 w-24"></div>
+              <div class="skeleton h-8 w-36"></div>
+              <div class="skeleton h-8 w-32"></div>
+              <div class="skeleton h-8 w-28"></div>
+            </div>
+            <div class="skeleton mt-8 h-14 w-full"></div>
+            <div class="mt-5 grid gap-3 sm:grid-cols-3">
+              <div class="panel p-4">
+                <div class="skeleton h-3 w-20"></div>
+                <div class="skeleton mt-3 h-8 w-16"></div>
+                <div class="skeleton mt-3 h-3 w-full"></div>
+              </div>
+              <div class="panel p-4">
+                <div class="skeleton h-3 w-24"></div>
+                <div class="skeleton mt-3 h-8 w-16"></div>
+                <div class="skeleton mt-3 h-3 w-full"></div>
+              </div>
+              <div class="panel p-4">
+                <div class="skeleton h-3 w-16"></div>
+                <div class="skeleton mt-3 h-8 w-12"></div>
+                <div class="skeleton mt-3 h-3 w-full"></div>
+              </div>
+            </div>
+            <div class="panel mt-5 p-4">
+              <div class="skeleton h-3 w-56"></div>
+              <div class="skeleton mt-3 h-55 w-full"></div>
+            </div>
+            <div class="panel mt-5 p-4">
+              <div class="skeleton h-4 w-full"></div>
+              <div class="skeleton mt-4 h-5 w-full"></div>
+              <div class="skeleton mt-4 h-5 w-full"></div>
+              <div class="skeleton mt-4 h-5 w-full"></div>
+              <div class="skeleton mt-4 h-5 w-full"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
