@@ -29,11 +29,11 @@ describe("Mission Readiness overview", () => {
     expect(screen.getByText("Alpha 3")).toBeInTheDocument();
     expect(screen.getByText("In Progress")).toBeInTheDocument();
   });
-
+  // Protects against: the concept notice disappearing from the footer
   // Protects against: the in-app disclaimer disappearing
   it("states the non-affiliation disclaimer in the footer", () => {
     setup();
-    expect(within(screen.getByRole("contentinfo")).getByText(/Not affiliated with/)).toBeInTheDocument();
+    expect(within(screen.getByRole("contentinfo")).getByText(/All data is fictional/)).toBeInTheDocument();
   });
 
   // Protects against: a metric appearing without its definition

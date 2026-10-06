@@ -26,7 +26,7 @@ test("the bar is a dark band in every theme, so the logo always reads", async ({
 // Protects against: the logo not being tinted for Night, leaving a white or orange spot on a red-only screen
 test("the logo keeps its brand colors in Day and Ops, and is tinted red in Night", async ({ page }) => {
   const fills = () =>
-    page.getByRole("img", { name: "Aptima" }).evaluate((svg) => {
+    page.getByRole("img", { name: "Logo placeholder" }).evaluate((svg) => {
       const f = [...svg.querySelectorAll("path")].map((p) => getComputedStyle(p).fill);
       return { mark: f[0], word: f[1] };
     });

@@ -1,6 +1,6 @@
 # Mission Readiness: design notes
 
-A concept dashboard for reviewing a team training exercise. It is a portfolio project, not affiliated with Aptima, Inc. All data is fictional.
+A concept dashboard for reviewing a team training exercise. It is a portfolio project. All data is fictional.
 
 ## Users and context
 

@@ -19,7 +19,7 @@ describe("app bar", () => {
   it("is the one banner, holding the logo, the page title and the global controls", () => {
     setup();
     const banner = screen.getByRole("banner");
-    expect(within(banner).getByRole("img", { name: "Aptima" })).toBeInTheDocument();
+    expect(within(banner).getByRole("img", { name: "Logo placeholder" })).toBeInTheDocument();
     expect(within(banner).getByRole("heading", { level: 1, name: "Mission Readiness" })).toBeInTheDocument();
     expect(within(banner).getByRole("group", { name: "Theme" })).toBeInTheDocument();
     expect(within(banner).getByRole("button", { name: "Display" })).toBeInTheDocument();
@@ -30,6 +30,6 @@ describe("app bar", () => {
   it("marks the project as a concept beside the logo and keeps the disclaimer in the footer", () => {
     setup();
     expect(within(screen.getByRole("banner")).getByText("Concept project")).toBeInTheDocument();
-    expect(within(screen.getByRole("contentinfo")).getByText(/Not affiliated with/)).toBeInTheDocument();
+    expect(within(screen.getByRole("contentinfo")).getByText(/All data is fictional/)).toBeInTheDocument();
   });
 });

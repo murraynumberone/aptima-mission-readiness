@@ -113,7 +113,7 @@ test("nothing makes the page scroll sideways at 320 px, with every panel open", 
   await page.getByRole("button", { name: "Display" }).click();
   await expect(page.getByRole("dialog", { name: "Display" })).toBeVisible();
   expect(await overflow()).toBeLessThanOrEqual(0);
-  await expect(page.getByRole("img", { name: "Aptima" })).toBeVisible();
+  await expect(page.getByRole("img", { name: "Logo placeholder" })).toBeVisible();
 });
 
 // Protects against: the playback buttons shifting sideways when Play becomes Pause. Reads positions before and

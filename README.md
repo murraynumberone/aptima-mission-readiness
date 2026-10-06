@@ -1,6 +1,6 @@
 # Mission Readiness
 
-> Concept interview project by Derick Murray for the UX Engineer role at Aptima. Not affiliated with, endorsed by, or built for Aptima, Inc. All data is fictional.
+> Concept project by Derick Murray. All data is fictional.
 
 A dashboard for reviewing a team training exercise. An instructor can see who needs attention, ask why, replay the exercise on a timeline, and write debrief notes with a review status. It is built for high-stress use: large readable text, status never shown by color alone, and every animation switched off for people who ask for reduced motion.
 

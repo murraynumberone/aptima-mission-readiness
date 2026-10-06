@@ -139,8 +139,7 @@ export function App({ run = currentRun, clock: injected, annotations: injectedNo
             <LiveSummary run={run} />
           </main>
           <footer className="mt-6 border-t border-line pt-3 text-xs text-muted-foreground">
-            Concept project by Derick Murray. Not affiliated with, endorsed by, or built for Aptima, Inc. All data is
-            fictional.
+            Concept project by Derick Murray. All data is fictional.
           </footer>
         </div>
       </AnnotationsProvider>
